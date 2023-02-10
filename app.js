@@ -6,6 +6,7 @@ const cors = require("cors");
 const mainRoutes = require("./routes/main");
 const healthRoutes = require("./routes/health");
 const postsRoutes = require("./routes/posts");
+const emailRoutes = require("./routes/email");
 
 app.use(
   cors({
@@ -19,5 +20,6 @@ app.use(
 app.use("/", mainRoutes);
 app.use("/health", healthRoutes);
 app.use("/posts", postsRoutes);
+app.use("/email", emailRoutes);
 
 module.exports = app;
