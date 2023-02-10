@@ -6,10 +6,6 @@ phases:
     commands:
       - echo "Installing dependencies..."
       - yarn install
-  build:
-    commands:
-      - echo "Starting the build process..."
-      - yarn run build
   post_build:
     commands:
       - echo "Zipping deployment package..."
