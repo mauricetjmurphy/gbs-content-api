@@ -5,10 +5,10 @@ phases:
       nodejs: 16
     commands:
       - echo "Installing dependencies..."
-      - npm install
+      - yarn install
   build:
     commands:
-      - npm run build
+      - yarn build
   post_build:
     commands:
       - echo "Zipping deployment package..."
