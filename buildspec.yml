@@ -12,6 +12,7 @@ phases:
   post_build:
     commands:
       - echo "Zipping deployment package..."
+      - mkdir build
       - zip -r build/main.zip .
       - echo "Updating lambda Function..."
       - aws lambda update-function-code --function-name $LAMBDA_FUNCTION_NAME --zip-file fileb://build/main.zip
