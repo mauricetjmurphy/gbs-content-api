@@ -6,13 +6,13 @@ phases:
     commands:
       - echo "Installing dependencies..."
       - yarn install
-  build:
-    commands:
-      - yarn run build
+  # build:
+  #   commands:
+  #     - yarn run build
   post_build:
     commands:
       - echo "Zipping deployment package..."
-      - zip -r build/main.zip build/
+      - zip -r main.zip .
       - echo "Updating lambda Function..."
       - aws lambda update-function-code --function-name $LAMBDA_FUNCTION_NAME --zip-file fileb://build/main.zip
       - echo "DONE!!"
