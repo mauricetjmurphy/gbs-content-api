@@ -7,7 +7,7 @@ AWS.config.update({
 
 exports.postEmail = async (email) => {
   const params = {
-    TableName: "Mailing-List",
+    TableName: "gbs-blog-mailing-list",
     Item: {
       email: email.emailAddress,
     },

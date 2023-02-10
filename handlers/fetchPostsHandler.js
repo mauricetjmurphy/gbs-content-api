@@ -1,5 +1,8 @@
 const AWS = require("aws-sdk");
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 AWS.config.update({
   region: "us-east-1",
@@ -7,7 +10,7 @@ AWS.config.update({
 
 exports.fetchPosts = async (event) => {
   const params = {
-    TableName: "GPT-Blog",
+    TableName: "gbs-blog-articles",
   };
 
   try {
