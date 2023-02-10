@@ -2,7 +2,7 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 14
+      nodejs: 16
     commands:
       - echo "Installing dependencies..."
       - yarn install
@@ -19,4 +19,4 @@ phases:
 
 env:
   variables:
-    LAMBDA_FUNCTION_NAME: "gpt-blog-api-lambda"
+    LAMBDA_FUNCTION_NAME: "gpt-blog-lf"
