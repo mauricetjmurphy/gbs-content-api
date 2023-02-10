@@ -20,7 +20,7 @@ exports.fetchArticles = async (event) => {
     );
     const latestDirectory = directories.sort().pop();
     const articleParams = {
-      Bucket: "gbs-blog-bucket",
+      Bucket: "gbs-blog-articles",
       Prefix: latestDirectory,
     };
     const articleResult = await S3.listObjectsV2(articleParams).promise();
@@ -29,7 +29,7 @@ exports.fetchArticles = async (event) => {
     );
     const articlePromises = articleFiles.map((articleFile) =>
       S3.getObject({
-        Bucket: "gbs-blog-bucket",
+        Bucket: "gbs-blog-articles",
         Key: articleFile.Key,
       }).promise()
     );
