@@ -6,7 +6,7 @@ const cors = require("cors");
 const mainRoutes = require("./routes/main");
 const healthRoutes = require("./routes/health");
 const postsRoutes = require("./routes/posts");
-const articlesRoutes = require("./routes/posts");
+const articlesRoutes = require("./routes/articles");
 const emailRoutes = require("./routes/email");
 
 app.use(
