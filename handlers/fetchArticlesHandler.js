@@ -35,14 +35,14 @@ exports.fetchArticles = async (event) => {
     );
     const articles = await Promise.all(articlePromises);
     const articlesData = articles.map((article) => JSON.parse(article.Body));
-    const articlesBody = articlesData.map((articleData) => {
-      let bodyArray = JSON.parse(articleData.Body);
-      articleData.Body = bodyArray;
-      return articleData;
-    });
+    // const articlesBody = articlesData.map((articleData) => {
+    //   let bodyArray = JSON.parse(articleData.Body);
+    //   articleData.Body = bodyArray;
+    //   return articleData;
+    // });
     return {
       statusCode: 200,
-      body: JSON.stringify(articlesBody),
+      body: JSON.stringify(articlesData),
     };
   } catch (error) {
     return {
