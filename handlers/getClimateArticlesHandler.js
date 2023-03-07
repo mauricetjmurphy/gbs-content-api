@@ -42,6 +42,7 @@ export const getClimateArticles = async () => {
           })
         );
         const contents = await streamToString(objectOutput.Body);
+        console.log(JSON.parse(contents));
         return JSON.parse(contents);
       })
     );
