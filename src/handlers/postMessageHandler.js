@@ -3,7 +3,7 @@ import { marshall } from "@aws-sdk/util-dynamodb";
 import { v4 as uuidv4 } from "uuid";
 import dotenv from "dotenv";
 
-import ddbDocClient from "../config/dynamobdConfig.js";
+import ddbDocClient from "../../config/dynamobdConfig.js";
 
 dotenv.config();
 

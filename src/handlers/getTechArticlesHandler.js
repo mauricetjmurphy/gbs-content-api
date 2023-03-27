@@ -1,7 +1,7 @@
 import { GetObjectCommand, ListObjectsCommand } from "@aws-sdk/client-s3";
 import dotenv from "dotenv";
 
-import s3Client from "../config/s3Config.js";
+import s3Client from "../../config/s3Config.js";
 
 dotenv.config();
 
