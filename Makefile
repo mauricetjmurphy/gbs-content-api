@@ -6,7 +6,7 @@ install:
 	echo "Installing dependencies..."
 	yarn install
 
-post_build:
+post_build: install
 	echo "Zipping deployment package..."
 	rm -rf build
 	mkdir build
