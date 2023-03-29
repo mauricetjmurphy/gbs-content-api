@@ -1,6 +1,6 @@
 import express from "express";
 
-import { getTechArticles } from "../handlers/getTechArticlesHandler.js";
+import { getTechArticles } from "../controller/getTechArticlesHandler.js.js";
 
 const router = express.Router();
 

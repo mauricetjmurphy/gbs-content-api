@@ -6,7 +6,7 @@ import { corsMiddleware } from "./middleware/cors.js";
 const app = express();
 
 // Import routes
-import routes from "./routes/index.js";
+import routes from "../src/routes/index.js";
 
 app.use(bodyParser.json());
 
