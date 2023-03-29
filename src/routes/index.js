@@ -7,6 +7,7 @@ import techArticlesRoutes from "./techArticles.js";
 import climateArticlesRoutes from "./climateArticles.js";
 import signupRoute from "./signup.js";
 import messagesRoute from "./message.js";
+import userPosts  from "./userPosts.js";
 
 const router = express.Router();
 
@@ -15,6 +16,7 @@ router.use("/", mainRoutes);
 router.use("/health", healthRoutes);
 router.use("/tech-articles", techArticlesRoutes);
 router.use("/climate-articles", climateArticlesRoutes);
+router.use("/user-post", userPosts);
 router.use("/signup", signupRoute);
 router.use("/message", messagesRoute);
 
