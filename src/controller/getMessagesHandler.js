@@ -1,7 +1,7 @@
 import { ScanCommand } from "@aws-sdk/client-dynamodb";
 import dotenv from "dotenv";
 
-import ddbDocClient from "../config/dynamobdConfig.js";
+import ddbDocClient from "../../config/dynamobdConfig.js";
 
 dotenv.config();
 

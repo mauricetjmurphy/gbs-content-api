@@ -1,12 +1,14 @@
-S3_BUCKET := gbs-content-api-lf
+S3_BUCKET_DEV := gbs-content-api-lf
+S3_BUCKET_PROD := gbs-lambda-archive-prod
 S3_KEY := main.zip
-LAMBDA_FUNCTION := gpt-blog-lf
+LAMBDA_FUNCTION_DEV := gpt-blog-lf
+LAMBDA_FUNCTION_PROD := gbs-blog-api-lambda-prod
 
 install:
 	echo "Installing dependencies..."
 	yarn install
 
-post_build:
+post_build_dev: install
 	echo "Zipping deployment package..."
 	rm -rf build
 	mkdir build
@@ -14,11 +16,28 @@ post_build:
 	echo "Uploading deployment package to S3..."
 	aws s3 cp build/main.zip s3://${S3_BUCKET}/${S3_KEY}
 
-s3_upload: post_build
+post_build_prod: install
+	echo "Zipping deployment package..."
+	rm -rf build
+	mkdir build
+	zip -r build/main.zip . -x "*.env"
+	echo "Uploading deployment package to S3..."
+	aws s3 cp build/main.zip s3://${S3_BUCKET_PROD}/${S3_KEY}
 
-lambda_update: s3_upload
-	echo "Updating Lambda Function..."
-	aws lambda update-function-code --function-name ${LAMBDA_FUNCTION} --s3-bucket ${S3_BUCKET} --s3-key ${S3_KEY}
+s3_upload_dev: post_build_dev
+
+s3_upload_prod: post_build_prod
+
+lambda_update_dev: s3_upload_dev
+	echo "Updating Dev Lambda Function..."
+	aws lambda update-function-code --function-name ${LAMBDA_FUNCTION_DEV} --s3-bucket ${S3_BUCKET_DEV} --s3-key ${S3_KEY}
 	echo "DONE!!"
 
-deploy-api-lambda: install lambda_update
+lambda_update_prod: s3_upload_prod
+	echo "Updating Prod Lambda Function..."
+	aws lambda update-function-code --function-name ${LAMBDA_FUNCTION_PROD} --s3-bucket ${S3_BUCKET_PROD} --s3-key ${S3_KEY}
+	echo "DONE!!"
+
+deploy_api_lambda_dev: install lambda_update_dev
+
+deploy_api_lambda_prod: install lambda_update_prod
