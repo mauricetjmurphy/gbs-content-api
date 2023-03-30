@@ -14,7 +14,7 @@ post_build_dev: install
 	mkdir build
 	zip -r build/main.zip . -x "*.env"
 	echo "Uploading deployment package to S3..."
-	aws s3 cp build/main.zip s3://${S3_BUCKET}/${S3_KEY}
+	aws s3 cp build/main.zip s3://${S3_BUCKET_DEV}/${S3_KEY}
 
 post_build_prod: install
 	echo "Zipping deployment package..."
