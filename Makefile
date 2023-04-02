@@ -1,7 +1,7 @@
-S3_BUCKET_DEV := gbs-content-api-lf
+S3_BUCKET_DEV := gbs-lambda-archive-dev
 S3_BUCKET_PROD := gbs-lambda-archive-prod
 S3_KEY := main.zip
-LAMBDA_FUNCTION_DEV := gpt-blog-lf
+LAMBDA_FUNCTION_DEV := gbs-blog-api-lambda-dev
 LAMBDA_FUNCTION_PROD := gbs-blog-api-lambda-prod
 
 install:
