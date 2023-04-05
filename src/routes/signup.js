@@ -1,7 +1,7 @@
 import express from "express";
 
-import { postEmail } from "../handlers/postEmailHandler.js";
-import { getEmails } from "../handlers/getEmailsHandler.js";
+import { postEmail } from "../controller/postEmailController.js";
+import { getEmails } from "../controller/getEmailsController.js";
 
 const router = express.Router();
 

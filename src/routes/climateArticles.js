@@ -1,5 +1,5 @@
 import express from "express";
-import { getClimateArticlesFromDB } from "../handlers/getClimateArticlesFromDB.js";
+import { getClimateArticlesFromDB } from "../controller/getClimateArticlesFromDBController.js";
 
 // import { getClimateArticles } from "../handlers/getClimateArticlesHandler.js";
 

@@ -1,7 +1,7 @@
 import express from "express";
 
-import { getMessages } from "../handlers/getMessagesHandler.js";
-import { postMessage } from "../handlers/postMessageHandler.js";
+import { getMessages } from "../controller/getMessagesController.js";
+import { postMessage } from "../controller/postMessageController.js";
 
 const router = express.Router();
 

@@ -1,5 +1,5 @@
 import express from "express";
-import { getTechArticlesFromDB } from "../handlers/getTechArticlesFromDB.js";
+import { getTechArticlesFromDB } from "../controller/getTechArticlesFromDBController.js";
 
 // import { getTechArticles } from "../handlers/getTechArticlesHandler.js";
 
