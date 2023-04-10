@@ -1,58 +1,72 @@
-import { UpdateItemCommand } from "@aws-sdk/client-dynamodb";
-import { marshall } from "@aws-sdk/util-dynamodb";
-import dotenv from "dotenv";
+import { DynamoDBClient, UpdateItemCommand } from "@aws-sdk/client-dynamodb";
 
 import ddbDocClient from "../../config/dynamobdConfig.js";
 
-dotenv.config();
-
-export const updateArticle = async (id, updatedArticle) => {
+export async function updateArticle(id, itemData) {
   try {
-    const { Title, Category, Body, Author, Date, Image_url } = updatedArticle;
+    const {
+      Title,
+      Category,
+      Body,
+      Author,
+      CreatedAt,
+      TopStory,
+      UpdatedAt,
+      Image_url,
+    } = itemData;
 
-    const params = {
+    console.log("Received data:", itemData);
+
+    const updateParams = {
       TableName: process.env.ARTICLES_TABLE,
-      Key: marshall({ Id: { S: id } }),
+      Key: {
+        Id: { S: id },
+        CreatedAt: { S: CreatedAt },
+      },
       UpdateExpression:
-        "SET #t = :t, #c = :c, #b = :b, #a = :a, #d = :d" +
-        (Image_url ? ", #i = :i" : ""),
+        "set #t = :title, #c = :category, #b = :body, #a = :author, #ts = :topStory, #ud = :updatedAt, #i = :imageUrl",
       ExpressionAttributeNames: {
         "#t": "Title",
         "#c": "Category",
         "#b": "Body",
         "#a": "Author",
-        "#d": "Date",
-        ...(Image_url && { "#i": "Image_url" }),
+        "#ts": "TopStory",
+        "#ud": "UpdatedAt",
+        "#i": "Image_url",
       },
-      ExpressionAttributeValues: marshall({
-        ":t": Title,
-        ":c": Category,
-        ":b": Body,
-        ":a": Author,
-        ":d": Date,
-        ...(Image_url && { ":i": Image_url }),
-      }),
-      ReturnValues: "ALL_NEW",
+      ExpressionAttributeValues: {
+        ":title": { S: Title },
+        ":category": { S: Category },
+        ":body": { S: JSON.stringify(Body) },
+        ":author": { S: Author },
+        ":topStory": { S: TopStory },
+        ":updatedAt": { S: UpdatedAt },
+        ":imageUrl": { S: Image_url },
+      },
     };
 
-    const response = await ddbDocClient.send(new UpdateItemCommand(params));
+    console.log("Update params:", updateParams);
 
-    console.log("UpdateCommand succeeded:", response.Attributes);
+    const command = new UpdateItemCommand(updateParams);
+    const data = await ddbDocClient.send(command);
 
-    const parsedItem = {
-      ...marshall(response.Attributes),
-      Body: JSON.parse(marshall(response.Attributes).Body),
-    };
+    console.log("Item updated successfully:", data);
 
     return {
       statusCode: 200,
-      body: JSON.stringify(parsedItem),
+      body: {
+        message: "Item updated successfully",
+        data,
+      },
     };
   } catch (error) {
-    console.error(error);
+    console.error("Error updating item:", error);
     return {
       statusCode: 500,
-      body: { error: "Internal Server Error" },
+      body: {
+        message: "Error updating item",
+        error,
+      },
     };
   }
-};
+}
