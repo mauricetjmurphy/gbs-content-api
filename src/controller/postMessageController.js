@@ -15,11 +15,12 @@ export async function postMessage(req, res) {
 
   // Create a new message object
   const newMessage = {
-    id,
-    firstName,
-    lastName,
-    email,
-    message,
+    Id: id,
+    Date: new Date().toISOString(),
+    FirstName: firstName,
+    LastName: lastName,
+    Email: email,
+    Message: message,
   };
 
   const command = new PutItemCommand({

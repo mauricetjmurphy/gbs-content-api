@@ -16,11 +16,12 @@ function unmarshallRecursive(record) {
   return unmarshalledRecord;
 }
 
-export const getClimateArticlesFromDB = async () => {
+export const getInitialArticles = async () => {
   try {
     const response = await ddbDocClient.send(
       new ScanCommand({
-        TableName: process.env.CLIMATE_ARTICLES_TABLE,
+        TableName: process.env.ARTICLES_TABLE,
+        Limit: 6, // Add a limit of 6 items to fetch
       })
     );
 

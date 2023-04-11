@@ -12,8 +12,8 @@ export const postEmail = async (email) => {
       new PutCommand({
         TableName: process.env.MAILING_LIST_TABLE,
         Item: {
-          id: uuidv4(),
-          email: email.email,
+          Id: uuidv4(),
+          Email: email.email,
         },
       })
     );
