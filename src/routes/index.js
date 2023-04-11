@@ -5,8 +5,6 @@ import mainRoutes from "./main.js";
 import healthRoutes from "./health.js";
 import articlesRoutes from "./articles.js";
 import initialArticlesRoutes from "./initialArticles.js";
-import techArticlesRoutes from "./techArticles.js";
-import climateArticlesRoutes from "./climateArticles.js";
 import signupRoute from "./signup.js";
 import messagesRoute from "./message.js";
 import userPosts from "./userPosts.js";
