@@ -12,7 +12,7 @@ post_build_dev: install
 	echo "Zipping deployment package..."
 	rm -rf build
 	mkdir build
-	zip -r build/main.zip . -x "*.env"
+	zip -r build/main.zip . -x ".env" -x ".env.staging" -x ".env.production"
 	echo "Uploading deployment package to S3..."
 	aws s3 cp build/main.zip s3://${S3_BUCKET_DEV}/${S3_KEY}
 
@@ -20,7 +20,7 @@ post_build_prod: install
 	echo "Zipping deployment package..."
 	rm -rf build
 	mkdir build
-	zip -r build/main.zip . -x "*.env"
+	zip -r build/main.zip . ".env" -x ".env.development" -x ".env.staging"
 	echo "Uploading deployment package to S3..."
 	aws s3 cp build/main.zip s3://${S3_BUCKET_PROD}/${S3_KEY}
 

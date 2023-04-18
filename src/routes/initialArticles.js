@@ -1,5 +1,4 @@
 import express from "express";
-import { getClimateArticlesFromDB } from "../controller/getClimateArticlesFromDBController.js";
 import { getInitialArticles } from "../controller/getInitialArticlesController.js";
 
 const router = express.Router();
