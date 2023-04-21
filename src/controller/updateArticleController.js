@@ -1,4 +1,4 @@
-import { DynamoDBClient, UpdateItemCommand } from "@aws-sdk/client-dynamodb";
+import { UpdateItemCommand } from "@aws-sdk/client-dynamodb";
 
 import ddbDocClient from "../../config/dynamobdConfig.js";
 
@@ -7,6 +7,7 @@ export async function updateArticle(id, itemData) {
     const {
       Title,
       Category,
+      CategoryTitle,
       Body,
       Author,
       CreatedAt,
@@ -15,8 +16,6 @@ export async function updateArticle(id, itemData) {
       Image_url,
     } = itemData;
 
-    console.log("Received data:", itemData);
-
     const updateParams = {
       TableName: process.env.ARTICLES_TABLE,
       Key: {
@@ -24,10 +23,11 @@ export async function updateArticle(id, itemData) {
         CreatedAt: { S: CreatedAt },
       },
       UpdateExpression:
-        "set #t = :title, #c = :category, #b = :body, #a = :author, #ts = :topStory, #ud = :updatedAt, #i = :imageUrl",
+        "set #t = :title, #c = :category, #ct = :categoryTitle, #b = :body, #a = :author, #ts = :topStory, #ud = :updatedAt, #i = :imageUrl",
       ExpressionAttributeNames: {
         "#t": "Title",
         "#c": "Category",
+        "#ct": "CategoryTitle",
         "#b": "Body",
         "#a": "Author",
         "#ts": "TopStory",
@@ -37,12 +37,14 @@ export async function updateArticle(id, itemData) {
       ExpressionAttributeValues: {
         ":title": { S: Title },
         ":category": { S: Category },
+        ":categoryTitle": { S: CategoryTitle },
         ":body": { S: JSON.stringify(Body) },
         ":author": { S: Author },
         ":topStory": { S: TopStory },
         ":updatedAt": { S: UpdatedAt },
         ":imageUrl": { S: Image_url },
       },
+      ReturnValues: "ALL_NEW",
     };
 
     console.log("Update params:", updateParams);
@@ -50,7 +52,7 @@ export async function updateArticle(id, itemData) {
     const command = new UpdateItemCommand(updateParams);
     const data = await ddbDocClient.send(command);
 
-    console.log("Item updated successfully:", data);
+    console.log(`Item updated successfully`);
 
     return {
       statusCode: 200,
@@ -60,7 +62,8 @@ export async function updateArticle(id, itemData) {
       },
     };
   } catch (error) {
-    console.error("Error updating item:", error);
+    console.log("Error:", error);
+
     return {
       statusCode: 500,
       body: {

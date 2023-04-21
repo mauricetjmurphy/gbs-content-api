@@ -10,9 +10,8 @@ router.get("/", async (req, res) => {
   res.status(response.statusCode).send(response.body);
 });
 
-router.put("/:id", async (req, res) => {
-  const id = req.params.id;
-  const updatedArticle = req.body;
+router.post("/update", async (req, res) => {
+  const { id, updatedArticle } = req.body;
   const response = await updateArticle(id, updatedArticle);
   res.status(response.statusCode).send(response.body);
 });
