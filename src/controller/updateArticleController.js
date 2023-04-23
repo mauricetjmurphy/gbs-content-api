@@ -1,8 +1,8 @@
-import { UpdateItemCommand } from "@aws-sdk/client-dynamodb";
+import { UpdateCommand } from "@aws-sdk/lib-dynamodb";
 
 import ddbDocClient from "../../config/dynamobdConfig.js";
 
-export async function updateArticle(id, itemData) {
+export async function updateArticle(id, originalCreatedAt, itemData) {
   try {
     const {
       Title,
@@ -19,46 +19,34 @@ export async function updateArticle(id, itemData) {
     const updateParams = {
       TableName: process.env.ARTICLES_TABLE,
       Key: {
-        Id: { S: id },
-        CreatedAt: { S: CreatedAt },
+        Id: String(id),
+        CreatedAt: String(originalCreatedAt),
       },
       UpdateExpression:
-        "set #t = :title, #c = :category, #ct = :categoryTitle, #b = :body, #a = :author, #ts = :topStory, #ud = :updatedAt, #i = :imageUrl",
-      ExpressionAttributeNames: {
-        "#t": "Title",
-        "#c": "Category",
-        "#ct": "CategoryTitle",
-        "#b": "Body",
-        "#a": "Author",
-        "#ts": "TopStory",
-        "#ud": "UpdatedAt",
-        "#i": "Image_url",
-      },
+        "set Title = :title, Category = :category, CategoryTitle = :categoryTitle, Body = :body, Author = :author, TopStory = :topStory, UpdatedAt = :updatedAt, Image_url = :image_url",
       ExpressionAttributeValues: {
-        ":title": { S: Title },
-        ":category": { S: Category },
-        ":categoryTitle": { S: CategoryTitle },
-        ":body": { S: JSON.stringify(Body) },
-        ":author": { S: Author },
-        ":topStory": { S: TopStory },
-        ":updatedAt": { S: UpdatedAt },
-        ":imageUrl": { S: Image_url },
+        ":title": Title,
+        ":category": Category,
+        ":categoryTitle": CategoryTitle,
+        ":body": JSON.stringify(Body),
+        ":author": Author,
+        ":topStory": TopStory,
+        ":updatedAt": UpdatedAt,
+        ":image_url": Image_url,
       },
-      ReturnValues: "ALL_NEW",
+      ConditionExpression:
+        "attribute_exists(Id) AND attribute_exists(CreatedAt)",
+      ReturnValues: "UPDATED_NEW",
     };
 
-    console.log("Update params:", updateParams);
-
-    const command = new UpdateItemCommand(updateParams);
-    const data = await ddbDocClient.send(command);
-
-    console.log(`Item updated successfully`);
+    const updateCommand = new UpdateCommand(updateParams);
+    const updateResult = await ddbDocClient.send(updateCommand);
+    console.log(`Item updated successfully`, updateResult);
 
     return {
       statusCode: 200,
       body: {
         message: "Item updated successfully",
-        data,
       },
     };
   } catch (error) {
