@@ -19,7 +19,7 @@ router.post("/update", async (req, res) => {
 });
 
 router.post("/add", async (req, res) => {
-  const { article } = req.body;
+  const article = req.body;
 
   const response = await addArticle(article);
   res.status(response.statusCode).send(response.body);
