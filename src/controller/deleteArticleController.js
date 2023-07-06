@@ -1,4 +1,4 @@
-import { DynamoDBClient, DeleteItemCommand } from "@aws-sdk/client-dynamodb";
+import { DeleteItemCommand } from "@aws-sdk/client-dynamodb";
 
 import ddbDocClient from "../../config/dynamobdConfig.js";
 
